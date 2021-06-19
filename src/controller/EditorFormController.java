@@ -3,6 +3,8 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
@@ -28,6 +30,22 @@ public class EditorFormController {
         pneReplace.setVisible(false);
 
         txtFind.textProperty().addListener((observable, oldValue, newValue) -> {
+            try{
+
+                Pattern regExp = Pattern.compile(newValue);
+                Matcher matcher = regExp.matcher(txtEditor.getText());
+
+                searchList.clear();
+
+                while (matcher.find()){
+                    searchList.add(new Index(matcher.start(), matcher.end()));
+                }
+            }catch (PatternSyntaxException e){
+
+            }
+        });
+
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             try{
 
                 Pattern regExp = Pattern.compile(newValue);
@@ -99,6 +117,16 @@ public class EditorFormController {
     }
 
     public void btnReplaceAll_OnAction(ActionEvent actionEvent) {
+    }
+
+    public void Escape_OnAction(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ESCAPE){
+            pneReplace.setVisible(false);
+            pneFind.setVisible(false);
+            txtFind.clear();
+            txtSearch.clear();
+            txtReplaceText.clear();
+        }
     }
 }
 
