@@ -20,8 +20,8 @@ public class AppInitializer extends Application {
         primaryStage.setScene(mainScene);
         primaryStage.setTitle("Simple Text Editor");
         primaryStage.setMaximized(true);
+        // primaryStage.setResizable(false);
+        primaryStage.centerOnScreen();
         primaryStage.show();
-
-
     }
 }

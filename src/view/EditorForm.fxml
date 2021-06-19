@@ -8,32 +8,63 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditorFormController">
+<AnchorPane prefHeight="400.0" prefWidth="649.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditorFormController">
    <children>
       <MenuBar prefHeight="29.0" prefWidth="201.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#mnuItemNew_OnAction" text="New" />
-                  <MenuItem mnemonicParsing="false" text="Open" />
-              <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Save as" />
+                  <MenuItem mnemonicParsing="false" onAction="#mnuItemNew_OnAction" text="New">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Open">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+              <MenuItem mnemonicParsing="false" text="Save">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Save as">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator></MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#mnuItemExit_OnAction" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Cut" />
-                  <MenuItem mnemonicParsing="false" text="Copy" />
-                  <MenuItem mnemonicParsing="false" text="Paste" />
+              <MenuItem mnemonicParsing="false" text="Cut">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Copy">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Paste">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="V" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#mnuItemFind_OnAction" text="Find" />
-                  <MenuItem mnemonicParsing="false" onAction="#mnuItemReplace_OnAction" text="Replace" />
+                  <MenuItem mnemonicParsing="false" onAction="#mnuItemFind_OnAction" text="Find">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#mnuItemReplace_OnAction" text="Replace">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#mnuItemSelectAll_OnAction" text="Select All" />
+                  <MenuItem mnemonicParsing="false" onAction="#mnuItemSelectAll_OnAction" text="Select All">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -43,13 +74,23 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TextArea fx:id="txtEditor" layoutX="14.0" layoutY="41.0" prefHeight="352.0" prefWidth="576.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="39.0" />
-      <ToolBar layoutX="10.0" layoutY="365.0" prefHeight="29.0" prefWidth="580.0" />
-      <AnchorPane prefHeight="49.0" prefWidth="279.0" style="-fx-background-color: gray;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TextArea fx:id="txtEditor" layoutX="14.0" layoutY="41.0" prefHeight="315.0" prefWidth="678.0" text="A regular expression (shortened as regex or regexp;[1] also referred to as rational expression[2][3]) is a sequence of characters that specifies a search pattern. Usually such patterns are used by string-searching algorithms for &quot;find&quot; or &quot;find and replace&quot; operations on strings, or for input validation. It is a technique developed in theoretical computer science and formal language theory.&#10;&#10;The concept arose in the 1950s when the American mathematician Stephen Cole Kleene formalized the description of a regular language. The concept came into common use with Unix text-processing utilities. Different syntaxes for writing regular expressions have existed since the 1980s, one being the POSIX standard and another, widely used, being the Perl syntax.&#10;&#10;Regular expressions are used in search engines, search and replace dialogs of word processors and text editors, in text processing utilities such as sed and AWK and in lexical analysis. Many programming languages provide regex capabilities either built-in or via libraries, as it has uses in many situations." wrapText="true" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="39.0" />
+      <ToolBar layoutX="10.0" layoutY="365.0" prefHeight="29.0" prefWidth="678.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <AnchorPane fx:id="pneFind" prefHeight="49.0" prefWidth="317.0" style="-fx-background-color: gray;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TextField fx:id="txtFind" layoutX="9.0" layoutY="11.0" prefHeight="26.0" prefWidth="179.0" />
-            <Button layoutX="204.0" layoutY="11.0" mnemonicParsing="false" onAction="#btnFindNext_OnAction" text="↑" />
-            <Button layoutX="242.0" layoutY="11.0" mnemonicParsing="false" onAction="#btnFindPrevious_OnAction" text="↓" />
+            <TextField fx:id="txtSearch" layoutX="9.0" layoutY="11.0" prefHeight="26.0" prefWidth="227.0" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="81.0" AnchorPane.topAnchor="11.0" />
+            <Button layoutX="244.0" layoutY="11.0" mnemonicParsing="false" onAction="#btnFindNext_OnAction" text="↑" />
+            <Button layoutX="282.0" layoutY="11.0" mnemonicParsing="false" onAction="#btnFindPrevious_OnAction" text="↓" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="pneReplace" layoutX="325.0" layoutY="25.0" prefHeight="115.0" prefWidth="317.0" style="-fx-background-color: gray;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TextField fx:id="txtFind" layoutX="9.0" layoutY="11.0" prefHeight="29.0" prefWidth="227.0" AnchorPane.rightAnchor="81.0" AnchorPane.topAnchor="11.0" />
+            <Button layoutX="244.0" layoutY="11.0" mnemonicParsing="false" onAction="#btnFindNext_OnAction" text="↑" />
+            <Button layoutX="282.0" layoutY="11.0" mnemonicParsing="false" onAction="#btnFindPrevious_OnAction" text="↓" />
+            <TextField fx:id="txtReplaceText" layoutX="9.0" layoutY="45.0" prefHeight="29.0" prefWidth="303.0" />
+            <Button layoutX="9.0" layoutY="81.0" mnemonicParsing="false" onAction="#btnReplace_OnAction" prefHeight="26.0" prefWidth="148.0" text="Replace" />
+            <Button layoutX="163.0" layoutY="81.0" mnemonicParsing="false" onAction="#btnReplaceAll_OnAction" prefHeight="26.0" prefWidth="148.0" text="ReplaceAll" />
          </children>
       </AnchorPane>
    </children>
