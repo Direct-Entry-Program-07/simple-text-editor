@@ -1,12 +1,15 @@
 package controller;
 
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import util.FXUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,21 +37,12 @@ public class EditorFormController {
         pneFind.setVisible(false);
         pneReplace.setVisible(false);
 
-        txtFind.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
+        ChangeListener textListener = (ChangeListener<String>)(observable, oldValue, newValue) -> {
+            searchMatches(newValue);
+        };
 
-                Pattern regExp = Pattern.compile(newValue);
-                Matcher matcher = regExp.matcher(txtEditor.getText());
-
-                searchList.clear();
-
-                while (matcher.find()) {
-                    searchList.add(new Index(matcher.start(), matcher.end()));
-                }
-            } catch (PatternSyntaxException e) {
-
-            }
-        });
+        txtSearch.textProperty().addListener(textListener);
+        txtFind.textProperty().addListener(textListener);
 
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
@@ -66,6 +60,27 @@ public class EditorFormController {
             }
         });
 
+    }
+
+    private void searchMatches(String query) {
+        FXUtil.highlightOnTextArea(txtEditor, query, Color.web("yellow", 0.8));
+
+        try {
+
+            Pattern regExp = Pattern.compile(query);
+            Matcher matcher = regExp.matcher(txtEditor.getText());
+
+            searchList.clear();
+
+            while (matcher.find()) {
+                searchList.add(new Index(matcher.start(), matcher.end()));
+            }
+            if (searchList.isEmpty()){
+                    findOffSet = -1;
+            }
+        } catch (PatternSyntaxException e) {
+
+        }
     }
 
     public void mnuItemNew_OnAction(ActionEvent actionEvent) {
