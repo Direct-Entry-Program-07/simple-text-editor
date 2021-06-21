@@ -43,23 +43,6 @@ public class EditorFormController {
 
         txtSearch.textProperty().addListener(textListener);
         txtFind.textProperty().addListener(textListener);
-
-        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-
-                Pattern regExp = Pattern.compile(newValue);
-                Matcher matcher = regExp.matcher(txtEditor.getText());
-
-                searchList.clear();
-
-                while (matcher.find()) {
-                    searchList.add(new Index(matcher.start(), matcher.end()));
-                }
-            } catch (PatternSyntaxException e) {
-
-            }
-        });
-
     }
 
     private void searchMatches(String query) {
@@ -75,6 +58,7 @@ public class EditorFormController {
             while (matcher.find()) {
                 searchList.add(new Index(matcher.start(), matcher.end()));
             }
+
             if (searchList.isEmpty()){
                     findOffSet = -1;
             }
@@ -93,13 +77,17 @@ public class EditorFormController {
     }
 
     public void mnuItemFind_OnAction(ActionEvent actionEvent) {
-        pneReplace.setVisible(false);
+        if (pneReplace.isVisible()){
+            pneReplace.setVisible(false);
+        }
         pneFind.setVisible(true);
         txtSearch.requestFocus();
     }
 
     public void mnuItemReplace_OnAction(ActionEvent actionEvent) {
-        pneFind.setVisible(false);
+        if (pneFind.isVisible()){
+            pneFind.setVisible(false);
+        }
         pneReplace.setVisible(true);
         txtFind.requestFocus();
     }
@@ -109,7 +97,7 @@ public class EditorFormController {
     }
 
     public void btnFindNext_OnAction(ActionEvent actionEvent) {
-        if (!searchList.isEmpty()) {
+        /*if (!searchList.isEmpty()) {
             if (findOffSet == -1) {
                 findOffSet = 0;
             }
@@ -123,11 +111,19 @@ public class EditorFormController {
             if (findOffSet >= searchList.size()) {
                 findOffSet = 0;
             }
+        }*/
+
+        if (!searchList.isEmpty()) {
+            findOffSet++;
+            if (findOffSet >= searchList.size()) {
+                findOffSet = 0;
+            }
+            txtEditor.selectRange(searchList.get(findOffSet).getStartIndex(), searchList.get(findOffSet).getEndIndex());
         }
     }
 
     public void btnFindPrevious_OnAction(ActionEvent actionEvent) {
-        if (!searchList.isEmpty()) {
+        /*if (!searchList.isEmpty()) {
             if (findOffSet == -1) {
                 findOffSet = searchList.size() - 1;
             }
@@ -136,18 +132,29 @@ public class EditorFormController {
             if (findOffSet < 0) {
                 findOffSet = searchList.size() - 1;
             }
+        }*/
+
+        if (!searchList.isEmpty()) {
+            findOffSet--;
+            if (findOffSet < 0) {
+                findOffSet = searchList.size() - 1;
+            }
+            txtEditor.selectRange(searchList.get(findOffSet).getStartIndex(), searchList.get(findOffSet).getEndIndex());
         }
     }
 
     public void btnReplace_OnAction(ActionEvent actionEvent) {
-        if (!selectedText.isEmpty()) {
+        /*if (!selectedText.isEmpty()) {
             selectedText = txtReplaceText.getText();
             txtEditor.replaceText(startPoint, endPoint, txtReplaceText.getText());
-        }
+        }*/
+        if (findOffSet == -1) return;
+        txtEditor.replaceText(searchList.get(findOffSet).getStartIndex(), searchList.get(findOffSet).getEndIndex(), txtReplaceText.getText());
+        searchMatches(txtFind.getText());
     }
 
     public void btnReplaceAll_OnAction(ActionEvent actionEvent) {
-        for (Index index : searchList) {
+        /*for (Index index : searchList) {
             txtEditor.selectRange(index.getStartIndex(), index.getEndIndex());
             selectedText = txtEditor.getSelectedText();
 
@@ -156,6 +163,12 @@ public class EditorFormController {
                 selectedText = txtReplaceText.getText();
                 txtEditor.replaceText(index.getStartIndex(), index.getEndIndex(), txtReplaceText.getText());
             }
+        }*/
+
+
+        while (!searchList.isEmpty()) {
+            txtEditor.replaceText(searchList.get(0).getStartIndex(), searchList.get(0).getEndIndex(), txtReplaceText.getText());
+            searchMatches(txtFind.getText());
         }
     }
 
