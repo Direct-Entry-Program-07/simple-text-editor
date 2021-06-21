@@ -26,7 +26,7 @@ public class EditorFormController {
     public TextField txtReplaceText;
 
     private int findOffSet = -1;
-    private final List<Index> searchList = new ArrayList<Index>();
+    private final List<Index> searchList = new ArrayList<>();
     private final int searchIndex = 0;
     private String selectedText = "";
 
