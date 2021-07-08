@@ -252,8 +252,10 @@ public class EditorFormController {
     }
 
     public void mnuPrint_OnAction(ActionEvent actionEvent) {
-        printerJob.showPrintDialog(txtEditor.getScene().getWindow());
-        printerJob.printPage(txtEditor.lookup("Text"));
+        boolean printDialog = printerJob.showPrintDialog(txtEditor.getScene().getWindow());
+        if (printDialog){
+            printerJob.printPage(txtEditor.lookup("Text"));
+        }
     }
 
     public void mnuPageSetup_OnAction(ActionEvent actionEvent) {
