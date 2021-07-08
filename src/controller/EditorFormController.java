@@ -2,15 +2,19 @@ package controller;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.print.PrinterJob;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import util.FXUtil;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,26 +22,31 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 public class EditorFormController {
+    private final List<Index> searchList = new ArrayList<>();
+    private final int searchIndex = 0;
     public TextArea txtEditor;
     public TextField txtFind;
     public AnchorPane pneFind;
     public TextField txtSearch;
     public AnchorPane pneReplace;
     public TextField txtReplaceText;
-
+    public MenuItem btnOpen;
+    public MenuItem btnSave;
+    public MenuItem btnSaveAs;
     private int findOffSet = -1;
-    private final List<Index> searchList = new ArrayList<>();
-    private final int searchIndex = 0;
-    private String selectedText = "";
+    private final String selectedText = "";
 
-    private int startPoint = 0;
-    private int endPoint = 0;
+    private final int startPoint = 0;
+    private final int endPoint = 0;
+    private PrinterJob printerJob;
+    private String absolutePath = "";
 
     public void initialize() {
         pneFind.setVisible(false);
         pneReplace.setVisible(false);
+        this.printerJob = PrinterJob.createPrinterJob();
 
-        ChangeListener textListener = (ChangeListener<String>)(observable, oldValue, newValue) -> {
+        ChangeListener textListener = (ChangeListener<String>) (observable, oldValue, newValue) -> {
             searchMatches(newValue);
         };
 
@@ -59,8 +68,8 @@ public class EditorFormController {
                 searchList.add(new Index(matcher.start(), matcher.end()));
             }
 
-            if (searchList.isEmpty()){
-                    findOffSet = -1;
+            if (searchList.isEmpty()) {
+                findOffSet = -1;
             }
         } catch (PatternSyntaxException e) {
 
@@ -69,15 +78,17 @@ public class EditorFormController {
 
     public void mnuItemNew_OnAction(ActionEvent actionEvent) {
         txtEditor.clear();
+        absolutePath = "";
         txtEditor.requestFocus();
     }
 
     public void mnuItemExit_OnAction(ActionEvent actionEvent) {
-        ((Stage)txtEditor.getScene().getWindow()).close();
+        ((Stage) txtEditor.getScene().getWindow()).close();
     }
 
     public void mnuItemFind_OnAction(ActionEvent actionEvent) {
-        if (pneReplace.isVisible()){
+        findOffSet = -1;
+        if (pneReplace.isVisible()) {
             pneReplace.setVisible(false);
         }
         pneFind.setVisible(true);
@@ -85,7 +96,7 @@ public class EditorFormController {
     }
 
     public void mnuItemReplace_OnAction(ActionEvent actionEvent) {
-        if (pneFind.isVisible()){
+        if (pneFind.isVisible()) {
             pneFind.setVisible(false);
         }
         pneReplace.setVisible(true);
@@ -180,6 +191,85 @@ public class EditorFormController {
             txtSearch.clear();
             txtReplaceText.clear();
         }
+    }
+
+    public void btnOpen_OnAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(("Open File"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All Text Files", "*.txt", "&.html"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All Files", "*"));
+
+        File file = fileChooser.showOpenDialog(txtEditor.getScene().getWindow());
+
+        if (file == null) return;
+
+        txtEditor.clear();
+        absolutePath = file.getAbsolutePath();
+        System.out.println(absolutePath);
+        try (FileReader fileReader = new FileReader(file);
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                txtEditor.appendText(line + '\n');
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void btnSave_OnAction(ActionEvent actionEvent) {
+        if (absolutePath.isEmpty()){
+            btnSaveAs_OnAction(actionEvent);
+        }else {
+            try (FileWriter fw = new FileWriter(absolutePath);
+                 BufferedWriter bw = new BufferedWriter(fw)) {
+                bw.write(txtEditor.getText());
+                //System.out.println(txtEditor.getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void btnSaveAs_OnAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File ");
+        File file = fileChooser.showSaveDialog(txtEditor.getScene().getWindow());
+
+        if (file == null) {
+            return;
+        }
+
+        try (FileWriter fw = new FileWriter(file);
+             BufferedWriter bw = new BufferedWriter(fw)) {
+            bw.write(txtEditor.getText());
+            absolutePath = file.getAbsolutePath();
+            //System.out.println(txtEditor.getText());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mnuPrint_OnAction(ActionEvent actionEvent) {
+        printerJob.showPrintDialog(txtEditor.getScene().getWindow());
+        printerJob.printPage(txtEditor.lookup("Text"));
+    }
+
+    public void mnuPageSetup_OnAction(ActionEvent actionEvent) {
+        //Window window = txtEditor.getScene().getWindow();
+        //System.out.println(window);
+        printerJob.showPageSetupDialog(txtEditor.getScene().getWindow());
+    }
+
+    public void mnuCut_OnAction(ActionEvent actionEvent) {
+
+    }
+
+    public void mnuCopy_OnAction(ActionEvent actionEvent) {
+    }
+
+    public void mnuPaste_OnAction(ActionEvent actionEvent) {
     }
 }
 
