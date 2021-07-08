@@ -2,7 +2,10 @@ package controller;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.print.PrinterJob;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -11,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import util.FXUtil;
 
@@ -265,13 +269,29 @@ public class EditorFormController {
     }
 
     public void mnuCut_OnAction(ActionEvent actionEvent) {
-
+        txtEditor.cut();
     }
 
     public void mnuCopy_OnAction(ActionEvent actionEvent) {
+        txtEditor.copy();
     }
 
     public void mnuPaste_OnAction(ActionEvent actionEvent) {
+        txtEditor.paste();
+    }
+
+    public void mnuAbout_OnAction(ActionEvent actionEvent) throws IOException {
+
+        Stage secondaryStage = new Stage();
+        Parent root = FXMLLoader.load(this.getClass().getResource("/view/AboutForm.fxml"));
+        Scene secondaryScene = new Scene(root);
+        secondaryStage.setScene(secondaryScene);
+        secondaryStage.centerOnScreen();
+        secondaryStage.initOwner(txtEditor.getScene().getWindow());
+        secondaryStage.initModality(Modality.WINDOW_MODAL);
+        secondaryStage.setResizable(false);
+        secondaryStage.setTitle("About Us");
+        secondaryStage.show();
     }
 }
 
