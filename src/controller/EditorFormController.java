@@ -293,6 +293,19 @@ public class EditorFormController {
         secondaryStage.setTitle("About Us");
         secondaryStage.show();
     }
+
+    public void mnuItemFormatFont_OnAction(ActionEvent actionEvent) throws IOException {
+        Stage secondaryStage = new Stage();
+        Parent root = FXMLLoader.load(this.getClass().getResource("/view/FormatFontForm.fxml"));
+        Scene secondaryScene = new Scene(root);
+        secondaryStage.setScene(secondaryScene);
+        secondaryStage.centerOnScreen();
+        secondaryStage.initOwner(txtEditor.getScene().getWindow());
+        secondaryStage.initModality(Modality.APPLICATION_MODAL);
+        secondaryStage.setResizable(false);
+        secondaryStage.setTitle("Format Font");
+        secondaryStage.show();
+    }
 }
 
 class Index {
