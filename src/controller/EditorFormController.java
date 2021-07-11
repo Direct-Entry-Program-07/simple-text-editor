@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.print.PrinterJob;
@@ -13,11 +14,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import util.FXUtil;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,7 @@ public class EditorFormController {
     private final List<Index> searchList = new ArrayList<>();
     private final int searchIndex = 0;
     public TextArea txtEditor;
+    private Font editorFont ;
     public TextField txtFind;
     public AnchorPane pneFind;
     public TextField txtSearch;
@@ -46,6 +50,8 @@ public class EditorFormController {
     private String absolutePath = "";
 
     public void initialize() {
+        setEditorFont(Font.getDefault());
+        //setEditorFont(Font.font("Ubuntu"));
         pneFind.setVisible(false);
         pneReplace.setVisible(false);
         this.printerJob = PrinterJob.createPrinterJob();
@@ -56,6 +62,13 @@ public class EditorFormController {
 
         txtSearch.textProperty().addListener(textListener);
         txtFind.textProperty().addListener(textListener);
+
+       // System.out.println(txtEditor.getFont().getName());
+        //txtEditor.setFont(new Font(12));
+        txtEditor.setFont(editorFont);
+        String changedFontName = FormatFontFormController.getChangedFontName();
+        System.out.println(changedFontName);
+
     }
 
     private void searchMatches(String query) {
@@ -292,11 +305,13 @@ public class EditorFormController {
         secondaryStage.setResizable(false);
         secondaryStage.setTitle("About Us");
         secondaryStage.show();
+
     }
 
     public void mnuItemFormatFont_OnAction(ActionEvent actionEvent) throws IOException {
+
         Stage secondaryStage = new Stage();
-        Parent root = FXMLLoader.load(this.getClass().getResource("/view/FormatFontForm.fxml"));
+        AnchorPane root = FXMLLoader.load(this.getClass().getResource("/view/FormatFontForm.fxml"));
         Scene secondaryScene = new Scene(root);
         secondaryStage.setScene(secondaryScene);
         secondaryStage.centerOnScreen();
@@ -304,7 +319,23 @@ public class EditorFormController {
         secondaryStage.initModality(Modality.APPLICATION_MODAL);
         secondaryStage.setResizable(false);
         secondaryStage.setTitle("Format Font");
+        secondaryStage.setUserData(txtEditor.getSelectedText());
+       // System.out.println(secondaryStage.getUserData());
         secondaryStage.show();
+        secondaryStage.setOnCloseRequest(event->{
+            System.out.println(FormatFontFormController.getChangedFontName());
+            String changedFontName = FormatFontFormController.getChangedFontName();
+
+
+        });
+    }
+
+    public Font getEditorFont() {
+        return editorFont;
+    }
+
+    public void setEditorFont(Font editorFont) {
+       this.editorFont = editorFont;
     }
 }
 

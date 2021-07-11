@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FormatFontFormController">
+<AnchorPane prefHeight="348.0" prefWidth="642.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FormatFontFormController">
    <children>
       <ListView fx:id="lstFont" layoutX="23.0" layoutY="78.0" prefHeight="151.0" prefWidth="200.0" />
-      <TextField fx:id="txtSelectedFont" layoutX="23.0" layoutY="52.0" prefHeight="26.0" prefWidth="200.0" />
-      <Label layoutX="23.0" layoutY="26.0" prefHeight="16.0" prefWidth="52.0" text="Font:" />
+      <TextField fx:id="txtSelectedFont" layoutX="23.0" layoutY="52.0" onKeyReleased="#txtSelectedFont_KeyReleased" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="23.0" layoutY="26.0" prefHeight="16.0" prefWidth="200.0" text="Font:" />
+      <Button layoutX="482.0" layoutY="300.0" mnemonicParsing="false" onAction="#btnApply_OnAction" prefHeight="26.0" prefWidth="150.0" text="Apply" />
+      <TextArea fx:id="txtSampleText" layoutX="23.0" layoutY="239.0" prefHeight="87.0" prefWidth="446.0" text="This is a sample Text" />
+      <ListView fx:id="lstStyle" layoutX="245.0" layoutY="78.0" prefHeight="151.0" prefWidth="131.0" />
+      <TextField fx:id="txtSelectedStyle" layoutX="245.0" layoutY="52.0" onKeyReleased="#txtSelectedFont_KeyReleased" prefHeight="26.0" prefWidth="131.0" />
+      <Label layoutX="245.0" layoutY="26.0" prefHeight="16.0" prefWidth="131.0" text="Font Style:" />
+      <ListView fx:id="lstFontSizes" layoutX="399.0" layoutY="78.0" prefHeight="151.0" prefWidth="69.0" />
+      <TextField fx:id="txtSelectedFontSize" layoutX="399.0" layoutY="52.0" onKeyReleased="#txtSelectedFont_KeyReleased" prefHeight="26.0" prefWidth="69.0" />
+      <Label layoutX="399.0" layoutY="26.0" prefHeight="16.0" prefWidth="69.0" text="Font Size:" />
+      <Label layoutX="491.0" layoutY="26.0" prefHeight="16.0" prefWidth="131.0" text="Font color:" />
+      <ColorPicker fx:id="clrpckrFont" layoutX="491.0" layoutY="52.0" prefHeight="26.0" prefWidth="131.0" />
+      <Label layoutX="491.0" layoutY="102.0" prefHeight="16.0" prefWidth="131.0" text="Background color:" />
+      <ColorPicker fx:id="clrpckrBG" layoutX="491.0" layoutY="128.0" prefHeight="26.0" prefWidth="131.0" />
+      <Button layoutX="482.0" layoutY="257.0" mnemonicParsing="false" onAction="#btnCancel_OnAction" prefHeight="26.0" prefWidth="150.0" text="Cancel" />
    </children>
 </AnchorPane>
