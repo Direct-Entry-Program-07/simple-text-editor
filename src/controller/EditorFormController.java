@@ -15,8 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -37,6 +36,7 @@ public class EditorFormController {
     private final List<Index> searchList = new ArrayList<>();
     private final int searchIndex = 0;
     public TextArea txtEditor;
+    public AnchorPane pneWorkingArea;
     private Font editorFont ;
     public TextField txtFind;
     public AnchorPane pneFind;
@@ -240,6 +240,18 @@ public class EditorFormController {
 
     }
 
+    public void openFile(File file){
+        try (FileReader fileReader = new FileReader(file);
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                txtEditor.appendText(line + '\n');
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void btnSave_OnAction(ActionEvent actionEvent) {
         if (absolutePath.isEmpty()){
             btnSaveAs_OnAction(actionEvent);
@@ -341,6 +353,23 @@ public class EditorFormController {
 
     public void setEditorFont(Font editorFont) {
        this.editorFont = editorFont;
+    }
+
+
+    public void txtEditor_OnDragOver(DragEvent dragEvent) {
+        if (dragEvent.getDragboard().hasFiles()){
+            dragEvent.acceptTransferModes(TransferMode.ANY);
+        }
+
+    }
+
+
+    public void txtEditor_OnDragDropped(DragEvent dragEvent) {
+        if (dragEvent.getDragboard().hasFiles()){
+            File file = dragEvent.getDragboard().getFiles().get(0);
+            openFile(file);
+            dragEvent.setDropCompleted(true);
+        }
     }
 }
 
